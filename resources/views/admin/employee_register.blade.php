@@ -62,10 +62,10 @@
         <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12">
             <div class="card border-primary mt-4">
                 <div class="card-header">
-                    <h4>Registrar Paciente</h4>
+                    <h4>Registrar Profesional</h4>
                 </div>
                 <div class="card-body table-responsive">
-                    <form action="{{route('registerPatient')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('registerEmployee')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-10 col-md-8 col-lg-4 offset-1 offset-md-2 offset-lg-4 imgUp">
@@ -94,16 +94,16 @@
                                 <input class="form-control" type="text" value="sample" disabled name="password">
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="">Fecha de Nacimiento</label>
-                                <input class="form-control" type="date" name="date_of_birth" autocomplete="off">
+                                <label for="">Profesión/Ocupación</label>
+                                <input class="form-control" type="text" name="profession" autocomplete="off">
                             </div>
                             <div class="col-12 col-md-6">
-                                <label for="">Nombre del Padre, Madre o Tutor</label>
-                                <input class="form-control" type="text" name="responsible_name" autocomplete="off">
+                                <label for="">E-mail</label>
+                                <input class="form-control" type="email" name="email" autocomplete="off">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="">Teléfono de Contacto</label>
-                                <input class="form-control" type="text" name="contact_number" autocomplete="off">
+                                <input class="form-control" type="text" name="phone" autocomplete="off">
                             </div>
                         </div>
                         <br>

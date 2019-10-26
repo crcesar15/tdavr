@@ -22,13 +22,15 @@ Route::get('logout', 'AuthController@getLogout')->name('logout');
 Route::post('login', 'AuthController@postLogin')->name('postLogin');
 
 // User Management Routes...
-Route::get('register', 'AuthController@getRegister')->name('register')->middleware('auth');
-Route::post('register', 'AuthController@postRegister')->name('saveUser')->middleware('auth');
-Route::get('getUserInfo/{id}', 'UsersController@getUserInfo')->name('getUserInfo')->middleware('auth');
-Route::get('createPatient', 'UsersController@createPatient')->name('createPatient')->middleware('auth');
-Route::get('createEmployee', 'UsersController@createEmployee')->name('createEmployee')->middleware('auth');
-Route::post('registerPatient', 'UsersController@registerPatient')->name('registerPatient')->middleware('auth');
-Route::post('registerEmployee', 'UsersController@registerEmployee')->name('registerEmployee')->middleware('auth');
+Route::middleware('auth')->prefix('/')->group(function (){
+    Route::get('register', 'AuthController@getRegister')->name('register');
+    Route::post('register', 'AuthController@postRegister')->name('saveUser');
+    Route::get('getUserInfo/{id}', 'UsersController@getUserInfo')->name('getUserInfo');
+    Route::get('createPatient', 'UsersController@createPatient')->name('createPatient');
+    Route::get('createEmployee', 'UsersController@createEmployee')->name('createEmployee');
+    Route::post('registerPatient', 'UsersController@registerPatient')->name('registerPatient');
+    Route::post('registerEmployee', 'UsersController@registerEmployee')->name('registerEmployee');
+});
 
 //Administrator Routes
 Route::middleware('auth')->prefix('/admin')->group(function (){

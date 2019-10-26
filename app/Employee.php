@@ -8,6 +8,10 @@ class Employee extends Model
 {
     public $timestamps = false;
 
+    protected $fillable = [
+        'profession', 'phone', 'email','user_id'
+    ];
+
     public function User(){
         return $this->belongsTo(User::class);
     }

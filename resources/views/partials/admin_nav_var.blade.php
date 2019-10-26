@@ -19,7 +19,7 @@
                     <a class="dropdown-item" href="{{route('admin.users')}}">
                         <i class="fa fa-search"> </i> Búsqueda
                     </a>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{route('createEmployee')}}">
                         <i class="fa fa-graduation-cap"> </i> Registrar Profesional
                     </a>
                     <a class="dropdown-item" href="{{route('createPatient')}}">
@@ -40,7 +40,7 @@
         </ul>
         <ul class="navbar-nav ">
             <li class="nav-item">
-                <img src="{{asset('storage/profile_photos/' . $user->profile_photo)}}"  class="rounded-circle" width=35" >
+                <img src="{{($user->profile_photo != '') ? asset('storage/profile_photos/' . $user->profile_photo) : asset('images/user.png')}}"  class="rounded-circle" width=35" >
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" data-toggle="dropdown">

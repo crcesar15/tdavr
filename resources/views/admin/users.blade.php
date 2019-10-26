@@ -64,8 +64,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-8 offset-2">
-                            <img src="" id="uProfilePhoto" class="img-fluid rounded img-thumbnail">
+                        <div class="col-8 offset-2 text-center">
+                            <img src="" id="uProfilePhoto" width="200" height="200" class="img-fluid rounded img-thumbnail">
                         </div>
                     </div>
                     <br>
@@ -143,7 +143,11 @@
                     $('#uCreatedAt').val(data.created_at);
                     $('#uDeletedAt').val( (data.deleted_at == '') ? 'Deshabilidato' : 'Activo' );
                     $('#uRole').val(role);
-                    $('#uProfilePhoto').attr('src', '{{asset('storage/profile_photos')}}/' + data.profile_photo);
+                    if(!data.profile_photo == ''){
+                        $('#uProfilePhoto').attr('src', '{{asset('storage/profile_photos')}}/' + data.profile_photo);
+                    }else{
+                        $('#uProfilePhoto').attr('src', '{{asset('images/user.png')}}');
+                    }
                 }
             })
         }
