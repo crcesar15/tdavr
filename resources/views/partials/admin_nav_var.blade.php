@@ -11,19 +11,29 @@
                     <i class="fa fa-home"></i> Inicio
                 </a>
             </li>
+            <li>
+                <a class="nav-link" href="{{route('admin.listEmployees')}}">
+                    <i class="fa fa-graduation-cap"> </i> Lista de Psicólogos
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="{{route('admin.listPatients')}}">
+                    <i class="fa fa-child"> </i> Lista de Pacientes
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarUsersDropdown">
                     <i class="fa fa-users"></i> Gestión de Usuarios
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarUsersDropdown">
-                    <a class="dropdown-item" href="{{route('admin.users')}}">
-                        <i class="fa fa-search"> </i> Búsqueda
-                    </a>
                     <a class="dropdown-item" href="{{route('createEmployee')}}">
                         <i class="fa fa-graduation-cap"> </i> Registrar Profesional
                     </a>
                     <a class="dropdown-item" href="{{route('createPatient')}}">
                         <i class="fa fa-child"> </i> Registrar Paciente
+                    </a>
+                    <a class="dropdown-item" href="{{route('admin.users')}}">
+                        <i class="fa fa-search"> </i> Búsqueda
                     </a>
                 </div>
             </li>

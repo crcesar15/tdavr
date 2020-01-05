@@ -13,7 +13,7 @@ class CreateTableEmployeesPatients extends Migration
      */
     public function up()
     {
-        Schema::create('employees_patients', function (Blueprint $table){
+        Schema::create('employee_patient', function (Blueprint $table){
            $table->unsignedInteger('employee_id');
            $table->foreign('employee_id')->references('id')->on('employees');
            $table->unsignedInteger('patient_id');
@@ -28,6 +28,6 @@ class CreateTableEmployeesPatients extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employees_patients');
+        Schema::dropIfExists('employee_patient');
     }
 }

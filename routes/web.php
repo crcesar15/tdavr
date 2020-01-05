@@ -17,6 +17,7 @@ Route::get('/test', function (){
    $patients = \App\Patient::with('Records')->first();
    dd($patients->Records);
 });
+
 Route::get('login', 'AuthController@getLogin')->name('login');
 Route::get('logout', 'AuthController@getLogout')->name('logout');
 Route::post('login', 'AuthController@postLogin')->name('postLogin');
@@ -36,5 +37,8 @@ Route::middleware('auth')->prefix('/')->group(function (){
 Route::middleware('auth')->prefix('/admin')->group(function (){
     Route::get('home', 'AdminController@home')->name('admin.home');
     Route::get('listUsers', 'AdminController@listUsers')->name('admin.users');
+    Route::get('listEmployees', 'AdminController@listEmployees')->name('admin.listEmployees');
+    Route::get('listPatients', 'AdminController@listPatients')->name('admin.listPatients');
+    Route::get('asignPatients', 'AdminController@asignPatients')->name('admin.asignPatients');
 });
 
