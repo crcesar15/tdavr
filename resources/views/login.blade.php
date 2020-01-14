@@ -275,7 +275,7 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <img src="{{asset('images/logo-emi.png')}}" id="icon" alt="User Icon" />
+                <img src="{{asset('images/logo-sinergia.png')}}" id="icon" alt="User Icon" />
             </div>
 
             <!-- Login Form -->
@@ -290,7 +290,9 @@
                     </div>
                 @endif
             </form>
-
+            <div class="fadeIn first">
+                <img src="{{asset('images/logo-emi.png')}}" id="icon" style="width: 30%;" alt="User Icon" />
+            </div>
             <!-- Remind Passowrd -->
             <div id="formFooter">
                 <a class="underlineHover" href="#">Forgot Password?</a>

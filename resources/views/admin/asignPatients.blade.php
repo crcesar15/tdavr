@@ -36,7 +36,7 @@
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <a href="{{route('admin.asignPatients')}}" class="btn btn-success"><i class="fa fa-check"></i> Asignar Pacientes</a>
-                                            <button type="button" class="btn btn-primary" onclick="getUserInfo({{$patient->user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i> Información</button>
+                                            <button type="button" class="btn btn-primary" onclick="getUserInfo({{$patient->user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-clock"></i> Programar Sesión</button>
                                             <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button>
                                         </div>
                                     </td>
