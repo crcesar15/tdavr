@@ -31,13 +31,13 @@
                             @forelse($employees as $employee)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$employee->user->first_name . " ". $employee->user->last_name}}</td>
+                                    <td style="text-align:left;"><i style="color:{{($employee->user->deleted_at == null) ? 'green': 'red'}}" class="fa fa-circle"></i> {{$employee->user->first_name . " ". $employee->user->last_name}}</td>
                                     <td>{{$employee->phone}}</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a href="{{route('admin.asignPatients', ["id" => $employee->id])}}" class="btn btn-success"><i class="fa fa-check"></i> Asignar Pacientes</a>
+                                            <a href="{{route('admin.assignPatients', ["id" => $employee->id])}}" class="btn btn-success"><i class="fa fa-check"></i> Asignar Pacientes</a>
                                             <button type="button" class="btn btn-primary" onclick="getUserInfo({{$employee->user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i> Información</button>
-                                            <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button>
+                                            <button type="button" class="btn btn-danger" onclick="deleteEmployee({{$employee->user->id}})"><i class="fa fa-trash"></i> Inhabilitar</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -141,12 +141,31 @@
                     $('#uLastName').val(data.last_name);
                     $('#uUsername').val(data.username);
                     $('#uCreatedAt').val(data.created_at);
-                    $('#uDeletedAt').val( (data.deleted_at == '') ? 'Deshabilidato' : 'Activo' );
+                    $('#uDeletedAt').val( (data.deleted_at == null) ? 'Activo' : 'Inhabilidato' );
                     $('#uRole').val(role);
                     if(!data.profile_photo == ''){
                         $('#uProfilePhoto').attr('src', '{{asset('storage/profile_photos')}}/' + data.profile_photo);
                     }else{
                         $('#uProfilePhoto').attr('src', '{{asset('images/user.png')}}');
+                    }
+                }
+            })
+        }
+
+        const deleteEmployee = (id) =>{
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{url('deleteUser')}}/' + id,
+                method: 'POST',
+                dataType: 'json',
+                success: res => {
+                    if(res.code == 1){
+                        location.reload();
+                    }else{
+                        console.error(res);
+                        location.reload();
                     }
                 }
             })

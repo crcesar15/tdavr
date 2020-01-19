@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Employee;
 use App\Patient;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -96,5 +97,45 @@ class UsersController extends Controller
             \DB::rollBack();
         }
         return redirect()->route('admin.users');
+    }
+
+    public function updateUser(Request $request){
+        $id = $request->input('user_id');
+        $first_name = $request->input('uFirstName');
+        $last_name = $request->input('uLastName');
+        $username = $request->input('uUsername');
+        $deleted_at = ($request->input('uDeletedAt') == "0" ? Carbon::now() : null);
+
+        \DB::beginTransaction();
+        try{
+            User::where('id', $id)
+                ->update([
+                            "first_name" => $first_name,
+                            "last_name" => $last_name,
+                            "username" => $username,
+                            "deleted_at" => $deleted_at
+                        ]);
+            \DB::commit();
+            Session::flash('message', ['text' => 'Se actualizo correctamente el usuario', 'type' => 'success']);
+        }catch(\Illuminate\Database\QueryException $exception){
+            \DB::rollback();
+            Session::flash('message', ['text' => 'Ocurrio un error al intentar actualizar el usuario, intente nuevamente o contacte con el administrador', 'type' => 'danger']);
+        }
+        return redirect()->back();
+    }
+
+    public function deleteUser($id){
+        \DB::beginTransaction();
+        try{
+            User::where('id', $id)
+                    ->update(['deleted_at' => Carbon::now()]);
+            \DB::commit();
+            Session::flash('message', ['text' => "Se Inhabilito Correctamente", 'type' => 'success']);
+            return json_encode(["code" => 1]);
+        }catch(\Illuminate\Database\QueryException $e){
+            Session::flash('message', ['text' => "Ocurrio un Error , Intente Nuevamente o Contacte al Administrador", 'type' => 'danger']);
+            \DB::rollback();
+            return json_encode($e);
+        }
     }
 }

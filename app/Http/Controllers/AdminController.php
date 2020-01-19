@@ -29,18 +29,18 @@ class AdminController extends Controller
 
     //This function list all Patients (Patients Page)
     public function listPatients(){
-        $users = User::with('Role')->get();
-        return view('admin.users', compact('users'));
+        $patients = Patient::with('User')->get();
+        return view('admin.patients', compact('patients'));
     }
 
     //This function list all schedules per patient
-    public function asignPatients($id){
+    public function assignPatients($id){
         $patients = Patient::withCount(['Schedules' => function($query){
             $from = Carbon::now()->startOfWeek()->format('Y-m-d H:i');
             $to = Carbon::now()->endOfWeek()->format('Y-m-d H:i');
             $query->whereBetween('datetime', [$from, $to])
                   ->where('deleted_at', null);
         }])->get();
-        return view('admin.asignPatients', compact('patients'));
+        return view('admin.assignPatients', compact('patients'));
     }
 }

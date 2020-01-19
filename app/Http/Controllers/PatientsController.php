@@ -47,7 +47,7 @@ class PatientsController extends Controller
             Schedule::where('id', $id)
                     ->update(['deleted_at' => Carbon::now()]);
             \DB::commit();
-            Session::flash('message', ['text' => "Se Cancelo Correctamente la Sesión", 'type' => 'danger']);
+            Session::flash('message', ['text' => "Se Cancelo Correctamente la Sesión", 'type' => 'success']);
             return json_encode(["code" => 1]);
         }catch(\Illuminate\Database\QueryException $e){
             Session::flash('message', ['text' => "Ocurrio un Error al Guardar, Intente Nuevamente o Contacte al Administrador", 'type' => 'danger']);

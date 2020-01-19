@@ -40,6 +40,9 @@ Route::middleware('auth')->prefix('/')->group(function (){
     Route::get('createEmployee', 'UsersController@createEmployee')->name('createEmployee');
     Route::post('registerPatient', 'UsersController@registerPatient')->name('registerPatient');
     Route::post('registerEmployee', 'UsersController@registerEmployee')->name('registerEmployee');
+    Route::post('updateUser', 'UsersController@updateUser')->name('updateUser');
+    Route::post('deleteUser/{id}', 'UsersController@deleteUser')->name('deleteUser');
+
 });
 
 //Administrator Routes
@@ -48,6 +51,6 @@ Route::middleware('auth')->prefix('/admin')->group(function (){
     Route::get('listUsers', 'AdminController@listUsers')->name('admin.users');
     Route::get('listEmployees', 'AdminController@listEmployees')->name('admin.listEmployees');
     Route::get('listPatients', 'AdminController@listPatients')->name('admin.listPatients');
-    Route::get('asignPatients/{id}', 'AdminController@asignPatients')->name('admin.asignPatients');
+    Route::get('assignPatients/{id}', 'AdminController@assignPatients')->name('admin.assignPatients');
 });
 
