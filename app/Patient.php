@@ -21,6 +21,10 @@ class Patient extends Model
     }
 
     public function Employees(){
-        return $this->belongsToMany(Employee::class);
+        return $this->hasMany(Employee::class);
+    }
+
+    public function Schedules(){
+        return $this->hasMany(Schedule::class);
     }
 }

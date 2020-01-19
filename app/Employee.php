@@ -16,7 +16,7 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function Patients(){
-        return $this->belongsToMany(Patient::class);
+    public function Schedules(){
+        return $this->hasMany(Schedule::class);
     }
 }

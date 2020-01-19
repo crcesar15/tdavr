@@ -12,7 +12,8 @@ try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap');
     require('@fortawesome/fontawesome-free/js/all');
-    require('datatables/media/js/jquery.dataTables')
+    require('datatables/media/js/jquery.dataTables');
+    window.moment = require('moment');
 } catch (e) {}
 
 /**

@@ -15,7 +15,7 @@
             @endif
             <div class="card border-primary mt-4">
                 <div class="card-header">
-                    <h4>Lista de Psicólogos</h4>
+                    <h4>Lista de Sesiones Semanales por Paciente</h4>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="text-center table table-bordered table-striped" id="users">
@@ -24,6 +24,7 @@
                                 <th>N°</th>
                                 <th>Nombre y Apellido</th>
                                 <th>Edad</th>
+                                <th>Sesiones <br> Semanales</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -33,11 +34,11 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$patient->user->first_name . " ". $patient->user->last_name}}</td>
                                     <td>{{\Carbon\Carbon::parse($patient->date_of_birth)->diffInYears(\Carbon\Carbon::now())}} años</td>
+                                    <td>{{$patient->schedules_count}}</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <a href="{{route('admin.asignPatients')}}" class="btn btn-success"><i class="fa fa-check"></i> Asignar Pacientes</a>
-                                            <button type="button" class="btn btn-primary" onclick="getUserInfo({{$patient->user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-clock"></i> Programar Sesión</button>
-                                            <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button>
+                                            <button {{($patient->schedules_count == "0") ? "disabled" : ""}} type="button" class="btn btn-success" onclick="getPatientSchedules({{$patient->id}})" data-toggle="modal" data-target="#listSchedules"><i class="fa fa-eye"></i> Ver Sesiones</button>
+                                            <button {{($patient->schedules_count == "3") ? "disabled" : ""}} type="button" class="btn btn-primary" onclick="savePatientSchedules({{$patient->id}})" data-toggle="modal" data-target="#saveSchedule"><i class="fa fa-clock"></i> Programar Sesión</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -52,53 +53,56 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- List Schedules Modal -->
+    <div class="modal fade" id="listSchedules" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Información del Usuario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sesiones del Paciente</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-8 offset-2 text-center">
-                            <img src="" id="uProfilePhoto" width="200" height="200" class="img-fluid rounded img-thumbnail">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-12 col-md-6">
-                            <label for="">Nombre</label>
-                            <input class="form-control" type="text" disabled id="uFirstName">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="">Apellido</label>
-                            <input class="form-control" type="text" disabled id="uLastName">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="">Usuario</label>
-                            <input class="form-control" type="text" disabled id="uUsername">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="">Fecha de Registro</label>
-                            <input class="form-control" type="text" disabled id="uCreatedAt">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="">Estado</label>
-                            <input class="form-control" type="text" disabled id="uDeletedAt">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="">Rol</label>
-                            <input class="form-control" type="text" disabled id="uRole">
-                        </div>
-                    </div>
+                <div class="modal-body" id="schedulesTable">
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Save Schedule Modal -->
+    <div class="modal fade" id="saveSchedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Programar Sesión</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{url("savePatientSchedule")}}" method="POST">
+                    <div class="modal-body">
+                        <div class="row">
+                            @csrf
+                            <input type="hidden" id="patient_id" name="patient_id">
+                            <input type="hidden" id="employee_id" name="employee_id" value="{{Route::input('id')}}">
+                            <div class="col-12 col-md-6">
+                                <label for="">Fecha</label>
+                                <input class="form-control" type="date" required id="date" name="date">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="">Hora</label>
+                                <input class="form-control" type="time" required id="time" name="time">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="sumbit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -115,41 +119,60 @@
             });
         });
 
-        const getUserInfo = (id)=>{
+        const getPatientSchedules = (id) =>{
+            let html = `<table class="table table-bordered table-striped">
+                            <tr class="text-center">
+                                <th>N°</th>
+                                <th>Fecha - Hora</th>
+                                <th>Psicólogo</th>
+                                <th>Acciones</th>
+                            </tr>`;
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '{{url('getUserInfo')}}/' + id,
+                url: '{{url('getPatientSchedules')}}/' + id,
                 method: 'GET',
                 dataType: 'json',
-                success: data => {
-                    console.log(data.profile_photo);
-                    let role = '';
-                    switch (data.role_id) {
-                        case 1:
-                            role = 'Administrador';
-                            break;
-                        case 2:
-                            role = 'Psicologo';
-                            break;
-                        case 3:
-                            role = 'Paciente';
-                            break;
-                    }
-                    $('#uFirstName').val(data.first_name);
-                    $('#uLastName').val(data.last_name);
-                    $('#uUsername').val(data.username);
-                    $('#uCreatedAt').val(data.created_at);
-                    $('#uDeletedAt').val( (data.deleted_at == '') ? 'Deshabilidato' : 'Activo' );
-                    $('#uRole').val(role);
-                    if(!data.profile_photo == ''){
-                        $('#uProfilePhoto').attr('src', '{{asset('storage/profile_photos')}}/' + data.profile_photo);
-                    }else{
-                        $('#uProfilePhoto').attr('src', '{{asset('images/user.png')}}');
-                    }
+                success: schedules => {
+                    let i = 1;
+                    schedules.map((schedule)=>{
+                        html += `<tr class="text-center">
+                                    <td>${i}</td>
+                                    <td>${moment(schedule.datetime).format('DD/MM/YYYY')} ${moment(schedule.datetime).format('HH:mm')}</td>
+                                    <td>${schedule.employee.user.first_name} ${schedule.employee.user.last_name}</td>
+                                    <td><button onclick="deleteSchedule(${schedule.id})" class="btn btn-danger"><i class="fa fa-trash"></i> Cancelar Sesión</button></td>
+                                </tr>`
+                        i++;
+                    })
+                    html += '</table>';
+                    $("#schedulesTable").html(html);
                 }
             })
+        }
+
+        const deleteSchedule = (id) =>{
+            if(confirm("¿Esta seguro de cancelar esta sesión")){
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '{{url('deletePatientSchedule')}}/' + id,
+                    method: 'POST',
+                    dataType: 'json',
+                    success: res => {
+                        if(res.code == 1){
+                            location.reload();
+                        }else{
+                            console.error(res);
+                        }
+                    }
+                }) 
+            }
+        }
+
+        const savePatientSchedules = (id) =>{
+            $("input#patient_id").val(id);
         }
     </script>
 @endpush
