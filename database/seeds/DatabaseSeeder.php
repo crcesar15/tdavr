@@ -45,9 +45,15 @@ class DatabaseSeeder extends Seeder
             factory(\App\Patient::class, 1)->create([
                'user_id' => $user->id
             ])->each(function (\App\Patient $patient){
-               factory(\App\Record::class, 10)->create([
-                   'patient_id' => $patient->id
-               ]);
+                factory(\App\Record::class, 5)->create([
+                   'patient_id' => $patient->id,
+                   'test' => 1
+                ]);
+
+                factory(\App\Record::class, 5)->create([
+                    'patient_id' => $patient->id,
+                    'test' => 2
+                ]);
             });
         });
 

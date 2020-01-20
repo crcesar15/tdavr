@@ -1,6 +1,6 @@
 @extends('layout')
 
-@include('partials.admin_nav_var',$user = session()->get('user'))
+@include('partials.employee_nav_var',$user = session()->get('user'))
 
 @section('content')
     <div class="row mt-5">
@@ -15,29 +15,28 @@
             @endif
             <div class="card border-primary mt-4">
                 <div class="card-header">
-                    <h4>Usuarios Registrados</h4>
+                    <h4>Lista de Pacientes</h4>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="text-center table table-bordered table-striped" id="users">
                         <thead>
                             <tr>
                                 <th>N°</th>
-                                <th>Nombre y Apellido</th>
-                                <th>Rol</th>
+                                <th style="text-align:left;">Nombre y Apellido</th>
+                                <th>Edad</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($users as $user)
+                            @forelse($patients as $patient)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td style="text-align:left;"><i style="color:{{($user->deleted_at == null) ? 'green': 'red'}}" class="fa fa-circle"></i> {{$user->first_name . " ". $user->last_name}}</td>
-                                    <td>{{$user->role->name}}</td>
+                                    <td style="text-align:left;"><i style="color:{{($patient->user->deleted_at == null) ? 'green': 'red'}}" class="fa fa-circle"></i> {{$patient->user->first_name . " ". $patient->user->last_name}}</td>
+                                    <td>{{\Carbon\Carbon::parse($patient->date_of_birth)->diffInYears(\Carbon\Carbon::now())}} años</td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Basic example">
-                                            <button type="button" class="btn btn-success" onclick="getUserInfo({{$user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i> Ver</button>
-                                            <button type="button" class="btn btn-primary" onclick="editUserInfo({{$user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i> Editar</button>
-                                            <button type="button" class="btn btn-danger" onclick="deleteUser({{$user->id}})"><i class="fa fa-trash"></i> Inhabilitar</button>
+                                            <button type="button" class="btn btn-success" onclick="getUserInfo({{$patient->user->id}})" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-eye"></i> Información</button>
+                                            <a type="button" class="btn btn-primary" href="{{route("employee.showRecords", ["id" => $patient->id])}}"><i class="fa fa-check"></i> Ver Progreso</a>
                                         </div>
                                     </td>
                                 </tr>
@@ -124,6 +123,7 @@
         });
 
         const getUserInfo = (id)=>{
+            $("#user_id").val(id);
             $("#mSubmit").hide();
             $.ajax({
                 headers: {
@@ -133,7 +133,6 @@
                 method: 'GET',
                 dataType: 'json',
                 success: data => {
-                    console.log(data.profile_photo);
                     let role = '';
                     switch (data.role_id) {
                         case 1:
@@ -146,13 +145,15 @@
                             role = 'Paciente';
                             break;
                     }
+                    
+                    //value
                     $('#uFirstName').val(data.first_name);
                     $('#uLastName').val(data.last_name);
                     $('#uUsername').val(data.username);
                     $('#uCreatedAt').val(data.created_at);
                     $('#uDeletedAt').val( (data.deleted_at == null) ? '1' : '0' );
                     $('#uRole').val(role);
-
+                    
                     //disabled
                     $('#uFirstName').prop('disabled','disabled')
                     $('#uLastName').prop('disabled','disabled')
@@ -160,7 +161,7 @@
                     $('#uCreatedAt').prop('disabled','disabled')
                     $('#uDeletedAt').prop('disabled','disabled')
                     $('#uRole').prop('disabled','disabled')
-
+                    
                     if(!data.profile_photo == ''){
                         $('#uProfilePhoto').attr('src', '{{asset('storage/profile_photos')}}/' + data.profile_photo);
                     }else{
@@ -214,8 +215,8 @@
                 }
             })
         }
-        
-        const deleteUser = (id) =>{
+
+        const deletePatient = (id) =>{
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -10,6 +10,7 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
+    require('chart.js');
     require('bootstrap');
     require('@fortawesome/fontawesome-free/js/all');
     require('datatables/media/js/jquery.dataTables');

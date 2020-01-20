@@ -53,7 +53,19 @@ class AuthController extends Controller
 
     public function verifyUser(){
         if(Auth::check()){
-            return redirect()->route('admin.home');
+            $role = Session::get('user')->role_id;
+
+            if($role == "1"){
+                return redirect()->route('admin.home');
+            }
+
+            if($role == "2"){
+                return redirect()->route('employee.home');
+            }
+
+            if($role == "3"){
+                return redirect()->route('patient.home');
+            }
         }else {
             return redirect()->route('login');
         }
