@@ -54,6 +54,7 @@ Route::middleware('auth')->prefix('/admin')->group(function (){
     Route::get('assignPatients/{id}', 'AdminController@assignPatients')->name('admin.assignPatients');
 });
 
+//Employee Routes
 Route::middleware('auth')->prefix('/employee')->group(function (){
     Route::get('home', 'EmployeesController@home')->name('employee.home');
     Route::get('listPatients', 'EmployeesController@listPatients')->name('employee.listPatients');
@@ -61,5 +62,11 @@ Route::middleware('auth')->prefix('/employee')->group(function (){
     Route::get('createRecords/{id}', 'EmployeesController@createRecords')->name('employee.createRecords');
     Route::post('saveRecords','EmployeesController@saveRecords')->name('employee.saveRecords');
     Route::get('showRecords/{id}','EmployeesController@showRecords')->name('employee.showRecords');
+});
+
+//Patient Routes
+Route::middleware('auth')->prefix('/patient')->group(function (){
+    Route::get('home', 'PatientsController@home')->name('patient.home');
+    Route::get('showRecords','PatientsController@showRecords')->name('patient.showRecords');
 });
 

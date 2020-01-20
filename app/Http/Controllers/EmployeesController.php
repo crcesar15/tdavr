@@ -55,6 +55,8 @@ class EmployeesController extends Controller
                     "time" => $request->input('timeOne'),
                     "patient_id" => $request->input('patient_id'),
                     "false_positive_rate" => 0,
+                    "created_at" => Carbon::now(),
+                    "updated_at" => Carbon::now(),
                     "test" => 1
                 ],
                 [
@@ -63,6 +65,8 @@ class EmployeesController extends Controller
                     "time" => $request->input('timeTwo'),
                     "patient_id" => $request->input('patient_id'),
                     "false_positive_rate" => 0,
+                    "created_at" => Carbon::now(),
+                    "updated_at" => Carbon::now(),
                     "test" => 1
                 ]
                ] 
@@ -80,6 +84,16 @@ class EmployeesController extends Controller
         $patient = Patient::with('user')
                           ->where('id', $id)
                           ->first();
-        return view('employee.showRecords', compact('patient'));
+        $labOneRecords = Record::where('patient_id', $id)
+                                ->where('test', 1)
+                                ->orderBy('created_at','ASC')
+                                ->get();
+
+        $labTwoRecords = Record::where('patient_id', $id)
+                                ->where('test', 2)
+                                ->orderBy('created_at','ASC')
+                                ->get();
+
+        return view('employee.showRecords', compact('patient', 'labOneRecords', 'labTwoRecords'));
     }
 }

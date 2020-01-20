@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Patient;
+use App\Record;
 use App\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,5 +56,27 @@ class PatientsController extends Controller
             \DB::rollback();
             return json_encode($e);
         }
+    }
+
+    public function home(){
+        return view('patient.home');
+    }
+
+    public function showRecords(){
+        $id = Session::get('user')->id;
+        $patient = Patient::with('user')
+                          ->where('id', $id)
+                          ->first();
+        $labOneRecords = Record::where('patient_id', $id)
+                                ->where('test', 1)
+                                ->orderBy('created_at','ASC')
+                                ->get();
+
+        $labTwoRecords = Record::where('patient_id', $id)
+                                ->where('test', 2)
+                                ->orderBy('created_at','ASC')
+                                ->get();
+
+        return view('patient.showRecords', compact('patient', 'labOneRecords', 'labTwoRecords'));
     }
 }

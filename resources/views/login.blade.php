@@ -6,7 +6,7 @@
         /* BASIC */
 
         html {
-            background-color: #7393c3;
+            background-color: #127ba3;
         }
 
         body {
@@ -283,20 +283,23 @@
                 @csrf
                 <input type="text" id="username" class="fadeIn second" name="username" placeholder="Usuario" autocomplete="off">
                 <input type="password" id="password" class="fadeIn third" name="password" placeholder="Contraseña" autocomplete="off">
-                <input type="submit" class="fadeIn fourth" value="Ingresar">
+                <br>
+                <button type="submit" class="btn btn btn-primary"><i class="fa fa-sign-in-alt"></i> Ingresar</button>
                 @if(session()->has('message'))
                     <div class="alert alert-danger" style="margin: 15px;">
                         {!! session()->get('message') !!}
                     </div>
                 @endif
             </form>
+            <br>
             <div class="fadeIn first">
                 <img src="{{asset('images/logo-emi.png')}}" id="icon" style="width: 30%;" alt="User Icon" />
             </div>
-            <!-- Remind Passowrd -->
+            <br>
+            <!-- Remind Passowrd 
             <div id="formFooter">
                 <a class="underlineHover" href="#">Forgot Password?</a>
-            </div>
+            </div>-->
 
         </div>
     </div>

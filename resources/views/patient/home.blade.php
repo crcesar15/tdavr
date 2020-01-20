@@ -1,7 +1,8 @@
 @extends('layout')
 @section('nav_bar')
-    @include('partials.admin_nav_var', $user = session()->get('user'))
+    @include('partials.patient_nav_var', $user = session()->get('user'))
 @endsection
+
 @section('content')
     <div class="row mt-5" style="text-align:justify">
         <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 col-12">

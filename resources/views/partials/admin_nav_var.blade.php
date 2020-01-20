@@ -42,11 +42,11 @@
                     <i class="fa fa-chart-line"></i> Estadísticas
                 </a>
             </li>-->
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fa fa-edit"></i> Reportes
                 </a>
-            </li>
+            </li>-->
         </ul>
         <ul class="navbar-nav ">
             <li class="nav-item">

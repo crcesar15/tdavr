@@ -1,6 +1,6 @@
 @extends('layout')
 
-@include('partials.employee_nav_var',$user = session()->get('user'))
+@include('partials.patient_nav_var',$user = session()->get('user'))
 
 @section('content')
 <div class="row mt-5">
