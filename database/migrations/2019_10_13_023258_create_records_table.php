@@ -20,6 +20,7 @@ class CreateRecordsTable extends Migration
             $table->float('false_positive_rate');
             $table->integer('test');
             $table->float('time');
+            $table->string('observations');
             $table->unsignedInteger('patient_id');
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->timestamps();

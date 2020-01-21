@@ -18,57 +18,89 @@
                     <h4>Paciente: {{$patient->user->first_name}} {{$patient->user->last_name}}</h4>
                 </div>
                 <div class="card-body table-responsive">
-                    <form action="{{route('employee.saveRecords')}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="patient_id" value="{{$patient->id}}">
-                        <div class="row">
-                            <div class="col-12">
-                                <h3>Laberinto #1</h3>
-                            </div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#home">Laberinto #1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#menu1">Laberinto #2</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane container active" id="home">
+                            <br>
+                            <h4>Datos</h4>
+                            <div id="dataOne">
+                                <form action="{{route('employee.saveRecords')}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="patient_id" value="{{$patient->id}}">
+                                    <input type="hidden" name="type_lab" value="one">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <label for="">N° de Aciertos</label>
+                                            <input class="form-control" type="number" min="0" max="10" required name="successOne">
+                                            <br>
+                                            <label for="">N° de Errores</label>
+                                            <input class="form-control" type="number" min="0" max="10" required name="mistakesOne">
+                                            <br>
+                                            <label for="">Tiempo [minutos]</label>
+                                            <input class="form-control" type="number" min="1" required name="timeOne">
+                                            <br>
+                                            <label for="">Observaciones (Opcional)</label>
+                                            <textarea name="observations" id="observations" rows="4" class="form-control"></textarea>
+                                        </div>
+                                        <div class="col-md-6 col-12 text-center">
+                                            <img src="{{asset('images/lab1.png')}}" width="85%" alt="">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Guardar Datos</button>
+                                        </div>
+                                    </div>
+                                </form>        
+                            </div>                         
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <label for="">N° de Aciertos</label>
-                                <input class="form-control" type="number" required name="successOne">
-                                <br>
-                                <label for="">N° de Errores</label>
-                                <input class="form-control" type="number" required name="mistakesOne">
-                                <br>
-                                <label for="">Tiempo [segundos]</label>
-                                <input class="form-control" type="number" required name="timeOne">
-                            </div>
-                            <div class="col-md-6 col-12 text-center">
-                                <img src="{{asset('images/lab1.png')}}" width="85%" alt="">
-                            </div>
+                        <div class="tab-pane container fade" id="menu1">
+                            <br>
+                            <h4>Datos</h4>
+                            <div id="dataTwo">
+                                <form action="{{route('employee.saveRecords')}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="patient_id" value="{{$patient->id}}">
+                                    <input type="hidden" name="type_lab" value="two">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <label for="">N° de Aciertos</label>
+                                            <input class="form-control" type="number" min="0" max="40" required name="successTwo">
+                                            <br>
+                                            <label for="">N° de Errores</label>
+                                            <input class="form-control" type="number" min="0" max="40" required name="mistakesTwo">
+                                            <br>
+                                            <label for="">Tiempo [minutos]</label>
+                                            <input class="form-control" type="number" min="1" required name="timeTwo">
+                                            <br>
+                                            <label for="">Observaciones (Opcional)</label>
+                                            <textarea name="observations" id="observations" rows="4" class="form-control"></textarea>
+                                        </div>
+                                        <div class="col-md-6 col-12 text-center">
+                                            <img src="{{asset('images/lab2.png')}}" width="85%" alt="">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Guardar Datos</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>                                  
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-12">
-                                <h3>Laberinto #2</h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-12">
-                                <label for="">N° de Aciertos</label>
-                                <input class="form-control" type="number" required name="successTwo">
-                                <br>
-                                <label for="">N° de Errores</label>
-                                <input class="form-control" type="number" required name="mistakesTwo">
-                                <br>
-                                <label for="">Tiempo [segundos]</label>
-                                <input class="form-control" type="number" required name="timeTwo">
-                            </div>
-                            <div class="col-md-6 col-12 text-center">
-                                <img src="{{asset('images/lab2.png')}}" width="85%" alt="">
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Guardar Datos</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

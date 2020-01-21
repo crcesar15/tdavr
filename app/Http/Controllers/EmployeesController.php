@@ -48,33 +48,40 @@ class EmployeesController extends Controller
     public function saveRecords(Request $request){
         \DB::beginTransaction();
         try{
-            Record::insert([
-                [
-                    "successes" => $request->input('successOne'),
-                    "mistakes" => $request->input('mistakesOne'),
-                    "time" => $request->input('timeOne'),
-                    "patient_id" => $request->input('patient_id'),
-                    "false_positive_rate" => 0,
-                    "created_at" => Carbon::now(),
-                    "updated_at" => Carbon::now(),
-                    "test" => 1
-                ],
-                [
-                    "successes" => $request->input('successTwo'),
-                    "mistakes" => $request->input('mistakesTwo'),
-                    "time" => $request->input('timeTwo'),
-                    "patient_id" => $request->input('patient_id'),
-                    "false_positive_rate" => 0,
-                    "created_at" => Carbon::now(),
-                    "updated_at" => Carbon::now(),
-                    "test" => 1
-                ]
-               ] 
-            );
+            $type = $request->input('type_lab');
+            if($type == "one"){
+                Record::insert(
+                    [
+                        "successes" => $request->input('successOne'),
+                        "mistakes" => $request->input('mistakesOne'),
+                        "time" => $request->input('timeOne'),
+                        "patient_id" => $request->input('patient_id'),
+                        "observations" => $request->input('observations'),
+                        "false_positive_rate" => 0,
+                        "created_at" => Carbon::now(),
+                        "updated_at" => Carbon::now(),
+                        "test" => 1
+                    ]
+                );    
+            }else{
+                Record::insert(
+                    [
+                        "successes" => $request->input('successTwo'),
+                        "mistakes" => $request->input('mistakesTwo'),
+                        "time" => $request->input('timeTwo'),
+                        "patient_id" => $request->input('patient_id'),
+                        "observations" => $request->input('observations'),
+                        "false_positive_rate" => 0,
+                        "created_at" => Carbon::now(),
+                        "updated_at" => Carbon::now(),
+                        "test" => 2
+                    ]
+                );    
+            }
             Session::flash('message', ['text' => "Se Guardaron Correctamente los Datos", 'type' => 'success']);
             \DB::commit();
         }catch(\Illuminate\Database\QueryException $e){
-            Session::flash('message', ['text' => "Ocurrio un Error al Guardar, Intente Nuevamente o Contacte al Administrador", 'type' => 'danger']);
+            Session::flash('message', ['text' => "Ocurrio un Error al Guardar, Intente Nuevamente o Contacte al Administrador" . $e, 'type' => 'danger']);
             \DB::rollback();
         }            
         return redirect()->back();

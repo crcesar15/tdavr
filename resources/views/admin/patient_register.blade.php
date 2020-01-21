@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="">Contraseña</label>
-                                <input class="form-control" type="text" value="sample" disabled name="password">
+                                <input class="form-control" type="text" value="sample" readonly name="password">
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="">Fecha de Nacimiento</label>

@@ -70,13 +70,14 @@
 
         let html = `<table class="table table-striped table-bordered">
                         <tr>
-                            <th>N° de <br>Intento</th>
-                            <th>Fecha</th>
-                            <th>Aciertos (A)</th>
-                            <th>Errores (E)</th>
-                            <th>Aciertos <br>Netos (A-E)</th>
-                            <th>Indice de <br>Control de <br>Impulsividad |C|</th>
-                            <th>Tiempo (A-E)</th>
+                            <th style="width: 5%">N° de <br>Intento</th>
+                            <th style="width: 15%">Fecha</th>
+                            <th style="width: 10%">Aciertos <br> (A)</th>
+                            <th style="width: 10%">Errores <br> (E)</th>
+                            <th style="width: 10%">Aciertos <br>Netos (A-E)</th>
+                            <th style="width: 15%">Indice de <br>Control de <br>Impulsividad |C|</th>
+                            <th style="width: 15%">Tiempo <br> [minutos]</th>
+                            <th style="width: 20%">Observaciones</th>
                         </tr>`;
         labOneRecords.map((record) => {
             labels[i] = moment(record.created_at).format('DD-MM-YYYY')
@@ -90,6 +91,7 @@
                         <td>${record.successes - record.mistakes}</td>
                         <td>${Math.round(((record.successes - record.mistakes)/(record.successes + record.mistakes))*100,2)}</td>
                         <td>${record.time}</td>
+                        <td>${record.observations}</td>
                     </tr>`
             i++;
         })
@@ -122,13 +124,14 @@
 
         html = `<table class="table table-striped table-bordered">
                         <tr>
-                            <th>N° de <br>Intento</th>
-                            <th>Fecha</th>
-                            <th>Aciertos (A)</th>
-                            <th>Errores (E)</th>
-                            <th>Aciertos <br>Netos (A-E)</th>
-                            <th>Indice de <br>Control de <br>Impulsividad |C|</th>
-                            <th>Tiempo (A-E)</th>
+                            <th style="width: 5%">N° de <br>Intento</th>
+                            <th style="width: 15%">Fecha</th>
+                            <th style="width: 10%">Aciertos <br> (A)</th>
+                            <th style="width: 10%">Errores <br> (E)</th>
+                            <th style="width: 10%">Aciertos <br>Netos (A-E)</th>
+                            <th style="width: 15%">Indice de <br>Control de <br>Impulsividad |C|</th>
+                            <th style="width: 15%">Tiempo <br> [minutos]</th>
+                            <th style="width: 20%">Observaciones</th>
                         </tr>`;   
 
         let labTwoRecords = {!! json_encode($labTwoRecords->toArray()) !!}
@@ -148,6 +151,7 @@
                         <td>${record.successes - record.mistakes}</td>
                         <td>${Math.round(((record.successes - record.mistakes)/(record.successes + record.mistakes))*100,2)}</td>
                         <td>${record.time}</td>
+                        <td>${record.observations}</td>
                     </tr>`
             i++;
         })

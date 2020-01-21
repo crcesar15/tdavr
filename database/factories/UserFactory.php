@@ -19,8 +19,8 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'first_name' => $firstName,
         'last_name' => $lastName,
-        'profile_photo' => \Faker\Provider\Image::image(storage_path() . '/app/public/profile_photos', 400, 400, 'people', false),
-        //'profile_photo' => "test",
+        //'profile_photo' => \Faker\Provider\Image::image(storage_path() . '/app/public/profile_photos', 400, 400, 'people', false),
+        'profile_photo' => "test",
         'username' => $firstName . '.' . $lastName,
         'password' => bcrypt('123456'), // 123456
         'remember_token' => str_random(10)
