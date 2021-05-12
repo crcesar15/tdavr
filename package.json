@@ -18,7 +18,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.3.1",
-        "chart.js": "^2.9.3",
+        "chart.js": "^2.9.4",
         "datatables": "^1.10.18",
         "jquery": "^3.4.1",
         "moment": "^2.24.0",
